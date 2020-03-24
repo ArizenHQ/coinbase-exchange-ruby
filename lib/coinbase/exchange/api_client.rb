@@ -285,6 +285,8 @@ module Coinbase
         http_verb('GET', "#{path}?#{URI.encode_www_form(params)}") do |resp|
           begin
             out = JSON.parse(resp.body)
+            # JSON gem 1.8 vs 2.3 retrocompatibilty issue 
+            raise JSON::ParserError if out.nil?
           rescue JSON::ParserError
             out = resp.body
           end
