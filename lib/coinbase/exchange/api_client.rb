@@ -310,6 +310,8 @@ module Coinbase
         http_verb('POST', path, params.to_json) do |resp|
           begin
             out = JSON.parse(resp.body)
+            # JSON gem 1.8 vs 2.3 retrocompatibilty issue 
+            raise JSON::ParserError if out.nil?
           rescue JSON::ParserError
             out = resp.body
           end
@@ -323,6 +325,8 @@ module Coinbase
         http_verb('DELETE', path) do |resp|
           begin
             out = JSON.parse(resp.body)
+            # JSON gem 1.8 vs 2.3 retrocompatibilty issue 
+            raise JSON::ParserError if out.nil?
           rescue
             out = resp.body
           end
